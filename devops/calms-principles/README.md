@@ -32,7 +32,7 @@ CALMS stands for: Culture, Automation, Lean, Measurement, Sharing.
 
 ## Measurement
 
-* DevOps employs a slew tools and technologies that help measure performance and map out realistic KPIs(?).
+* DevOps employs a slew tools and technologies that help measure performance and map out realistic KPIs(Key Performance Indicator).
 * Common measurements taken in  a DevOps environment are:
   * How many tickets were being pushed per release?
   * How many bugs did we find (and how long did it take to fix them)?
