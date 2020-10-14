@@ -33,7 +33,7 @@ Explicitly declare and isolate dependencies.
 
 Most programming languages offer a packaging system for distributing support libraries (NuGet, NPM, Yarn, etc). Libraries installed through a packaging system can be installed system-wide or scoped into the directory containing the app.
 
-A **twelve-factor app never relies on implicit existence of system-wide packages**. It declares all dependencies, completely and exactly, via a *dependency declaration* manifest (Python - Pip). Furthermore, ir uses a *dependency isolation* tool during execution to ensure that no implicit dependencies "leak in" from the surrounding system (Python - Virtualenv).
+A **twelve-factor app never relies on implicit existence of system-wide packages**. It declares all dependencies, completely and exactly, via a *dependency declaration* manifest (Python - Pip). Furthermore, it uses a *dependency isolation* tool during execution to ensure that no implicit dependencies "leak in" from the surrounding system (Python - Virtualenv).
 
 No matter what the toolchain, dependency declaration and isolation must always be used together, only one or the other is not sufficient to satisfy twelve-factor.
 
@@ -103,7 +103,7 @@ Execute the app as one or more stateless processes.
 
 The app is executed in the execution environment as one or more *processes*.
 
-In the simplest case, the code is a stand-aline script, the environment is a developer's local laptop with an installed language runtime, and the process is launched via the command line. On the other end of the spectrum, a production deploy of a sophisticated app may use many process types, instantiated into zero or more running processes.
+In the simplest case, the code is a stand-alone script, the environment is a developer's local laptop with an installed language runtime, and the process is launched via the command line. On the other end of the spectrum, a production deploy of a sophisticated app may use many process types, instantiated into zero or more running processes.
 
 Twelve-factor processes are stateless and share-nothing. Any data that needs to persist must be stored in a stateful backing service, typically a database.
 
@@ -133,7 +133,7 @@ Scale out the process model.
 
 Any computer program, once run, is represented by one or more processes. Web apps have taken a variety of process-execution forms. The running process(es) are only minimally visible to the developers of the app.
 
-In twelve-factor app, processes are a first class citizen. Processes in the twelve-factor app take string cues from the unix process model for running service daemons. Using this mode, the developer can architect their app to handle diverse workloads by assigning *each type of work* to a *process type*. (HTTP requests may be handled by a web process, long-running background task handled by a worker process)
+In twelve-factor app, processes are a first class citizen. Processes in the twelve-factor app take strong cues from the unix process model for running service daemons. Using this mode, the developer can architect their app to handle diverse workloads by assigning *each type of work* to a *process type*. (HTTP requests may be handled by a web process, long-running background task handled by a worker process)
 
 This does not exclude individual process from handling their own internal multiplexing, via threads inside the runtime VM, or the async/evented model (EventMachine, Twisted, Node.js). But an individual VM can only grow so large (vertical scale), so the applications must also be able to span multiple processes running on multiple physical machines.
 
@@ -145,7 +145,7 @@ Twelve-factor app processes should never daemonize or write PID files. Instead, 
 
 Maximize robustness with fast startup and graceful shutdown.
 
-Twelve-factor app's are disposable, meaning they cab be started or stopped at the moment's notice. This facilitates fast elastic scaling, rapid deployment of code of config changes, and robustness of production deploys.
+Twelve-factor app's are disposable, meaning they can be started or stopped at the moment's notice. This facilitates fast elastic scaling, rapid deployment of code of config changes, and robustness of production deploys.
 
 Processes should strive to **minimize startup time**. Ideally, a process takes a few seconds from the launch command is executed until the process is up and ready to receive request or jobs. Short startup time provides more agility for the release process and scaling up; and it aids robustness, because the process manager can more easily move processes to new physical machine whe warranted.
 
@@ -220,3 +220,7 @@ One-off admin process should be run in an identical environment as the regular l
 The same dependency isolation techniques should be used on all process types.
 
 Twelve-factor strongly favors languages which provide a REPL (Read-Eval-Print-loop) shell out of the box, and which make it easy to run one-off scripts. In a local deploy, developers invoke one-off admin processes by a direct shell command inside the app's checkout directory. In a production deploy, developers can use ssh or other remote command execution mechanism provided by that deploy's execution environment to run such a process.
+
+## Resources
+
+[12factor.net](https://12factor.net/)
