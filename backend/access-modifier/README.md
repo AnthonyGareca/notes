@@ -4,17 +4,44 @@
 
 All type member have an accessibility level. The accessibility level controls whether they can be used from other code in your assembly or other assemblies.
 
-public: The type or member can be accessed by any other code in the same assembly or another assembly.
+## public
 
-private: only by code in the same class or struct.
+The type or member can be accessed by any other code in the same assembly or another assembly.
 
-protected: only by code in the same class, or in a class that is derived from that class.
+Public access is the most permissive access level.
 
-internal: by any code in the same assembly, but not from another assembly.
+## private
 
-protected internal: by any code in the assembly in which it's declared, or from within a derived class in another assembly.
+only by code in the same class or struct.
 
-private protected: only within its declaring assembly, by code in the same class or in a type that is derived from that class.
+Nested types in the same body can also access those private members.
+
+It is a compile-time error to reference a private member outside the class or the struct in which it is declared.
+
+## protected
+
+only by code in the same class, or in a class that is derived from that class.
+
+A protected member is accessible within its class and by derived class instances.
+
+
+## internal
+
+by any code in the same assembly, but not from another assembly.
+
+Internal types or members are accessible only within files in the same assembly.
+
+## protected internal
+
+by any code in the assembly in which it's declared, or from within a derived class in another assembly.
+
+A protected internal member is accessible from the current assembly or from types that are derived from the containing class.
+
+## private protected
+
+only within its declaring assembly, by code in the same class or in a type that is derived from that class.
+
+A private protected member is accessible by types derived from the containing class, but only within its containing assembly.
 
 ## Resources
 
