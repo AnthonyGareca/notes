@@ -71,21 +71,14 @@ A private protected member is accessible by types derived from the containing cl
 
 [docs.microsoft.com](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/access-modifiers)
 
+[public](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/public)
 
-Por quienes es accesible un miembro del tipo private protected?
+[private](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/private)
 
-solo por tipos deribados de la clase que lo declara y si tambien estan en el mismo assembly
+[protected](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/protected)
 
+[internal](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/internal)
 
-Por quienes es accesible un miembro del tipo protected internal?
+[protected internal](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/protected-internal)
 
-solo por tipos deribados de la clase que lo declara y  los derivados pueden estar en diferentes assembly
-
-
-Por quienes es accesible un miembro del tipo private protected?
-
-solo por tipos deribados de la clase que lo declara y si tambien estan en el mismo assembly
-
-
-Cuales son solo member access modifier?
-
+[private protected](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/private-protected)
