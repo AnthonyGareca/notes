@@ -2,7 +2,7 @@
 
 [back](../README.md)
 
-All type member have an accessibility level. The accessibility level controls whether they can be used from other code in your assembly or other assemblies.
+All types members have an accessibility level. The accessibility level controls whether they can be used from other code in your assembly or other assemblies.
 
 ## public
 
