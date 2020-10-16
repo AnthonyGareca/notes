@@ -21,3 +21,9 @@ John Willis and Damon Edwards coined the acronym CAMS in 2010 which was later ex
 CALMS stands for: Culture, Automation, Lean, Measurement, Sharing.
 
 [Go to CALMS Principles](./calms-principles/README.md)
+
+## [Create GitLab Runners](./gitlab-runner/README.md)
+
+We will create a Virtual Machine that becomes in our GitLab Runner.
+
+[ Go to Create GitLab Runners](./gitlab-runner/README.md)
