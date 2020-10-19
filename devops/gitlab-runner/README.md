@@ -198,3 +198,9 @@ deploy1:
 ```
 
 Now the runner works any time that there any commit in the `Project` repository.
+
+To check the status of the runner in the virtual machine.
+
+``` bash
+  $ docker stats gitlab-runner
+```
