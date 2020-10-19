@@ -31,3 +31,9 @@ An anonymous function is an "inline" statement or expression that can be used wh
 A delegate is a type that represents references to methods with a particular parameter list and return type.
 
 [Go to Delegates](./delegates/README.md)
+
+## [Collections](./collections/README.md)
+
+For man applications, you want to create and manage groups of related objects. There are two ways to group objects: by creating arrays of objects, and by creating collections of objects.
+
+[Go to Collections](./collections/README.md)

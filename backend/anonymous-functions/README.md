@@ -6,6 +6,18 @@ An Anonymous function is an "inline" statement or expression that can be used wh
 
 You can use a lambda expression or an anonymous method to create an anonymous function.
 
+``` cs
+  delegate void TestDelegate(string s);
+
+  // Anonymous method
+  TestDelegate s = delegate(string s) { Console.WriteLine("Hi Anonymous methods!")};
+
+  // Lambda Expression
+  TestDelegate t = (s) => { Console.WriteLine("Hi Lambda expressions!"); };
+```
+
+Microsoft recommend using lambda expressions as they provide more concise and expressive way to write inline code.
+
 ## Lambda Expressions
 
 ``` cs
@@ -20,6 +32,7 @@ Use the lambda declaration operator **=>** to separate the lambda parameter list
 
 Any lambda expression can be converted to a delegate type.
 
+If a lambda expression doesn't return a value, it can be converted to one of the `Action` delegate types; otherwise, it can be converted to one of the `Func` delegate types.
 
 
 ## Resources
