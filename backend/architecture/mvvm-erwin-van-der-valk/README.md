@@ -39,6 +39,49 @@ A hard to wok with model has the following characteristics:
 
 ![Complex Model MVVM](./assets/complex-model-mvvm.png "complex-model-mvvm")
 
+## Implementing the Model view ViewModel pattern
+
+### The ViewModel
+
+So what is a ViewModel? And how does it differ from a View of the Model. Consider the following example. Suppose you would build Paint using WPF or Silverlight, using the MVVM pattern:
+
+![MVVM Example](./assets/mvvm-example.png "mvvm-example")
+
+The View obviously determines what is displayed on the Screen. And the Model, well that will likely be the Image. But the application works with more date that 'just' the Document. This estra data is mostly the State of the UI. (kind of brush, zoom percentage) While it is possible to store this information in the View itself, this is usually a bad practice.
+
+### Model for the View
+
+The ViewModel is a model for the view. Therefore, it hold's all the state of the view as well as the logic that operates on the state. The ViewModel exposes this data and logic in such a way that the View can very easily access it. However, the ViewModel should not expose or interact directly with UI elements.
+
+Another responsibility of the ViewModel is to adapt the Model to the View. Typically the model is a domain model. If you have full control over the model, then typically you can build it so that the model itself is very easily databindable. However, if you don't have control over the model, for example, you are getting it from an external system, them the ViewModel might need to adapt the model to the view.
+
+### The MVVM pattern
+
+So the following picture shows the MVVM pattern as how you would typically implement it in WPF or Silverlight:
+
+![MVVM Pattern](./assets/mvvm-pattern.png "mvvm-pattern")
+
+The View is typically implemented as a UserControl or DateTemplate (in WPF). It uses DataBinding to read and update information of ht e ViewModel. If the vie needs to communicate to the ViewModel, there are several options:
+
+- **Commands**: To route the Click event from a button to a ViewModel, the easiest way is to implement a Command. The _Command pattern_ describes an object that can invoke functionality at a later pint in time. In this case, when the user clicks a button.
+- **2 way bindable properties**: You can use TwoWay databinding to notify the ViewModel that something has changed.
+- **Bind ViewModel methods to events from controls**: The _Caliburn_ framework allows you to bind public methods on the ViewModel directly to your controls in XAML. Add complexity to the code.
+- **Code behind**: It is always possible to use Code Behind to communicate between the View and the ViewModel.
+- **ICommand interface**: A common way to expose functionality from your ViewModel that your View can interact with is by exposing _Command_ objects. A command object implements the _ICommand_ interface, that has two methods:
+  - **Execute**, which will fire the logic encapsulated by the command.
+  - **CanExecute**, which determines if the command can actually execute.
+- **The INotifyPropertyChanged interface**: This interface allows your ViewModel to notify the View of changes to properties. One important thing: before invoking the event in the property, check if the value has actually changed. this helps preventing never ending loops when properties are chained together.
+
+### What not to do in a ViewModel
+
+- Expose or interact with visual elements in your ViewModel
+
+  This ties your UI to Visual Elements and makes it hard to test in isolation.
+
+- Try to control the View too directly from you ViewModel
+
+  You should try to deep your ViewModel logical, rather than Visual. You can expose properties with the desire values or errors. Then the UI control designer can decide if the color of the control should be red or purple in a n error situation.
+
 ## Resources
 
 - [How do I adapt a simple vs complex model](https://docs.microsoft.com/en-us/archive/blogs/erwinvandervalk/how-do-i-adapt-a-simple-vs-complex-model)
