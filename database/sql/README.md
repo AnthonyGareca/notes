@@ -45,12 +45,39 @@ In queries that retrieve a lot of rows, you will see the `(+ 0.016 sec. network)
 
 Also, think about the situation. When you are updating the table, your SELECT may not be able to access the same data, and eventually you'll get a very poor performance.
 
-### Components of DQL
+## Why avoid SELECT \*
 
-## Specific Column Data
+- **Increases unnecessary IO for disk**. SELECT \* retrieves pretty much every single column from your table.
+- **Increases unwarranted network traffic**. When our table is very wide and we only need few columns from the table in our application, pretty much we are abusing our IO and network with a lot more data than we need.
+- **Requires more memory for data cache**. Every single query eventually goes to your memory pool buffer. Now we are retrieving every single time all the data. It means we need now more memory to handle that cache. If we do not more memory, every soon we start having a memory pressure.
+- **Index inefficiency**. If you are retrieving every single column every single time from your table, SQL server will end up using your cluster index to retrieve data pretty much every time. Indexed are usually created on few columns of the table. When we are retrieving only those columns, indexes are beneficial and helpful, but if we are retrieving every single column, indexes may not be helpful at all. MariaDB Engine will end up retrieving all the columns from your cluster index or heap and will ignore your indexes.
+- **Column binding for issues for column dependent applications**. It es quite possible that data architect may go and change the names of the table in MariaDB database. That would immediately break your code if your application is binding columns. SELECT \* does not give you any guarantee to retrieve data in the same order every single time in terms of columns.
 
-## Specific Row Data
+In a real world scenario:
 
-## Summary
+Table:
+
+| ID  | FirstName | LastName | ManagerID | Salary |
+| --- | --------- | -------- | --------- | ------ |
+
+where we have a table with sensitive information about the employees and we want only retrieve the full name of our employees.
+
+```sql
+SELECT CONCAT(FirstName, ' ', LastName) AS FullName
+WHERE Employee;
+```
+
+Now, we want to retrieve name of the employee and his or her manager.
+
+```sql
+SELECT CONCAT(e1.FirstName, ' ', e1.LastName) AS [EmployeeName],
+    CONCAT(e2.FirstName, ' ', e2.LastName) AS [ManagerName]
+FROM Employee e1
+INNER JOIN Employee e2 ON e1.ManagerID = e2.ID
+ORDER BY e1.ID;
+```
+
+- INNER JOIN, where it is joining Table 1's ManagerID with Table 2's ID. This is very critical information in self join when it want to find hierarchy of the employees.
+- SELECT statement, the first where it is looking at the employee name, it is retrieving data from e1, which stands for employee 1, and when we are finding name of the manager, it is retrieving data from e2, which is employee table with alias e2.
 
 [back](../README.md)
