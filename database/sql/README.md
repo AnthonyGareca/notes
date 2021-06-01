@@ -45,6 +45,8 @@ In queries that retrieve a lot of rows, you will see the `(+ 0.016 sec. network)
 
 Also, think about the situation. When you are updating the table, your SELECT may not be able to access the same data, and eventually you'll get a very poor performance.
 
+> DQL language components are very important for any RDBMS to retrieve data from the tables.
+
 ## Why avoid SELECT \*
 
 - **Increases unnecessary IO for disk**. SELECT \* retrieves pretty much every single column from your table.
@@ -79,5 +81,25 @@ ORDER BY e1.ID;
 
 - INNER JOIN, where it is joining Table 1's ManagerID with Table 2's ID. This is very critical information in self join when it want to find hierarchy of the employees.
 - SELECT statement, the first where it is looking at the employee name, it is retrieving data from e1, which stands for employee 1, and when we are finding name of the manager, it is retrieving data from e2, which is employee table with alias e2.
+
+Now we want to retrieve the actors that had work together in the most quantity of films possible:
+
+```sql
+-- to no repeat actors from a join to another we use less than mark (<) to prevent that behavior.
+SELECT fa1.actor_id Actor1, CONCAT (a1.first_name, ' ', a1.last_name) Actor1Name,
+       fa2.actor_id Actor2, CONCAT (a2.first_name, ' ', a2.last_name) Actor2Name,
+       COUNT(fa1.film_id) TotalCount
+FROM film_actor fa1
+INNER JOIN film_actor fa2 ON fa1.film_id = fa2.film_id
+           AND fa1.actor_id < fa2.actor_id
+INNER JOIN actor a1 ON fa1.actor_id = a1.actor_id
+INNER JOIN actor a2 ON fa2.actor_id = a2.actor_id
+GROUP BY fa1.actor_id, fa2.actor_id
+ORDER BY TotalCount DESC, fa1.actor_id, fa2.actor_id;
+```
+
+> Avoid using `SELECT *` in a table queries.
+
+> Query only the columns that you need for optimal performance.
 
 [back](../README.md)
