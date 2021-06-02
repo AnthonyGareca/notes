@@ -172,4 +172,94 @@ LIMIT 3;
 
 > Retrieves only the rows that you need for optimal performance.
 
+## Aggregating Results with GROUP BY
+
+A `GROUP BY` clause in a `SELECT` statement groups rows together that have the same value in one or more columns.
+
+`GROUP BY` can be only used with `SELECT` expression. If you don't have `SELECT` expression, there is no meaning to use `GROUP BY`.
+
+If you use `GROUP BY` clause you can have multiple expressions in it. You can separate multiple expressions by comma.
+
+You don't only have to specify column name as expression. You can also use single integer as a grouping expression. If you use `2` it indicates that we want to group by second column, witch we have used in a `SELECT` expression.
+
+If we use `WHERE` condition where `GROUP BY` clause is used, it is usually applied before grouping.
+
+You don't have to always specify order by. `GROUP BY` clause automatically orders or sorts rows based on expression specified in `GROUP BY` clause. The default sort order is ascending.
+
+`HAVING` clause for helps us filter with data based on aggregation functions, witch we have use in `SELECT` statement.
+
+```sql
+-- Example
+SELECT Col1, Col2, AVG(Col3)
+FROM TableName
+WHERE Col1 = 'Condition'
+GROUP BY Col1, 2
+HAVING AVG(Col3) > 100;
+```
+
+### Common Aggregated Functions
+
+- `AVERAGE` calculates the average of group of selected value in a particular column.
+- `SUM` adds together all the values in a particular column and returns us a single value.
+
+- `COUNT` counts how many rows are in a particular column. You can specify star (\*) or just column name in this function, and it counts appropriated value.
+- `MAX` return the highest value in a particular column.
+- `MIN` return the lowest value in a particular column.
+- `COUNT DISTINCT`, it actually counts distinct value in you particular column.
+
+Examples:
+
+Find the average rental amount paid by each customer.
+
+```sql
+-- Using Sakila DB
+SELECT AVG(amount) AVGAmount, customer_id
+FROM payment
+GROUP BY customer_id;
+```
+
+List customers who paid average rental amount over USD 5
+
+```sql
+-- Using Sakila DB
+SELECT AVG(amount) AVGAmount, customer_id
+FROM payment
+GROUP BY customer_id
+HAVING AVG(amount) > 5;
+```
+
+Find the total rental amount paid by each customer
+
+```sql
+SELECT SUM(amount) TotalAmount, customer_id
+FROM payment
+GROUP BY customer_id
+ORDER BY TotalAmount DESC;
+```
+
+Find the maximum amount paid by any customer whish in not complimentary (not use coupons or any other discount in a rental to pay zero (0))
+
+```sql
+SELECT MAX(amount) MAXAmount, MIN(amount) MINAmount
+FROM payment
+WHERE amount > 0;
+```
+
+Find count of customer based on the amount paid
+
+Using `WITH ROLLUP` (super-aggregate summaries) we can see the total of the `COUNT` aggregated function at the end of the rows. It cannot be used with `ORDER BY`, some sorting is still possible by using `ASC` or `DESC` clause with the `GROUP BY` column, although the super-aggregated rows will always added last.
+
+**Be Careful**: if you only use the COUNT(customer_id) you will count the number of payments done per each amount, don't count the number of customers at all.
+
+```sql
+SELECT COUNT(DISTINCT customer_id) TotalCustomer, amount
+FROM payment
+GROUP BY amount
+WITH ROLLUP;
+```
+
+> `GROUP BY` clause groups rows together in `SELECT` statement based on Grouping Function.
+
+> MariaDB: Aggregated Functions, most popular are AVG, SUM, COUNT, MAX, MIN, and COUNT DISTINCT. The rest are [here](https://mariadb.com/kb/en/aggregate-functions/).
+
 [back](../README.md)
