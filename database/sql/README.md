@@ -102,4 +102,74 @@ ORDER BY TotalCount DESC, fa1.actor_id, fa2.actor_id;
 
 > Query only the columns that you need for optimal performance.
 
+## Filter Table Rows
+
+Golden rule: `Query only as much data as much is required by our application.`
+
+- Limit results with `WHERE` clause
+- Search for patterns with `LIKE` keyword
+- Select a range of values with `BETWEEN` keyword
+- Select a range of known values and not very big with `IN` keyword
+
+Examples:
+
+Table;
+
+| ID  | FirstName | LastName | ManagerID | Salary |
+| --- | --------- | -------- | --------- | ------ |
+
+List employees called `Mary`.
+
+```sql
+SELECT CONCAT(FirstName, ' ', LastName) AS FullName, Salary, ManagerID
+FROM Employee
+WHERE FirstName = 'Mary';
+```
+
+List employees with first initial as 'M' or 'T'.
+
+The `LIKE` operator is used in a `WHERE` clause to search for a specified pattern in a column.
+
+There are two wildcards often used in conjunction with the `LIKE` operator:
+
+- The percent sign (%) represents zero, one, or multiple characters (like \* in RegEx)
+- The underscore (\_) represents one, single character
+
+```sql
+SELECT CONCAT(FirstName, ' ', LastName) AS FullName, Salary, ManagerID
+FROM Employee
+WHERE FirstName LIKE 'M%' OR FirstName LIKE 'T%';
+```
+
+List employees with salary between 5k and 9k.
+
+The `BETWEEN` keyword includes both the ranges specified in the statement.
+
+```sql
+SELECT CONCAT(FirstName, ' ', LastName) AS FullName, Salary, ManagerID
+FROM Employee
+WHERE Salary BETWEEN 5000 AND 9000;
+```
+
+List employees with ManagerID 1, 3, and 5.
+
+```sql
+SELECT CONCAT(FirstName, ' ', LastName) AS FullName, Salary, ManagerID
+FROM Employee
+WHERE ManagerID IN (1, 3, 5);
+```
+
+Limit the list of employees that have salary more than 8K to 3.
+
+```sql
+SELECT CONCAT(FirstName, ' ', LastName) AS FullName, Salary, ManagerID
+FROM Employee
+WHERE Salary > 8000
+LIMIT 3;
+```
+
+> Avoid retrieving entire table in your application code.
+
+> Retrieves only the rows that you need for optimal performance.
+
 [back](../README.md)
