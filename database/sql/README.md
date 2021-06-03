@@ -262,4 +262,66 @@ WITH ROLLUP;
 
 > MariaDB: Aggregated Functions, most popular are AVG, SUM, COUNT, MAX, MIN, and COUNT DISTINCT. The rest are [here](https://mariadb.com/kb/en/aggregate-functions/).
 
+## Manipulating String and Numeric Column Fields
+
+MariaDB provides many native string and numeric functions which can manipulate the data to get necessary business outcomes.
+
+Generic Examples, which we see in our daily life where we have to use string and numeric function to manipulate data.
+
+- Parsing pin code from the address
+- Displaying length of the data
+- Combining FirstName and LastName to make a FullName
+- Reversing the string for a security purpose
+- Finding ASCII value of numbers, and maybe a salary increase
+
+There are two different ways we can manipulate data.
+
+- We can go to a database and update the original data.
+- We can just change the data for our display purpose.
+
+Both of them requires help of various string and numeric functions.
+
+String manipulation functions:
+
+- `CONCAT`: this function takes multiple input parameters and concatenates the data together.
+- `LENGTH`: return the length of the entire input argument.
+- `LEFT`: this function accepts two parameters, the first parameter is the column or the string, and the second parameter is how many characters we want to display. It start on the left side.
+- `RIGHT`: this function accepts two parameters, the first parameter is the column or the string, and the second parameter is how many characters we want to display. It start on the right side.
+- `LOWER`: this function only accepts one parameter and whatever string or column which have passed on it, it converts it to lowercase.
+- `UPPER`: this function only accepts one parameter and whatever string or column which have passed on it, it converts it to uppercase.
+- more [here](https://mariadb.com/kb/en/string-functions/).
+
+> We can always nest multiple functions in MariaDB.
+
+Show the full name of the actor, keeping in mind that the first letter in the name and last name must be on uppercase.
+
+We use a sub query to make more readable the CONCAT function.
+
+```sql
+SELECT CONCAT(FirstName, ' ', LastName)
+FROM (
+    SELECT CONCAT(LEFT(first_name, 1), RIGHT(LOWER(first_name), LENGTH(first_name) - 1)) AS FirstName,
+           CONCAT(LEFT(last_name, 1), RIGHT(LOWER(last_name), LENGTH(last_name) - 1)) AS LastName
+    FROM actor) t;
+
+```
+
+Numeric manipulation functions:
+
+- `CEILING`: this function rounded up the number passed as argument.
+- `FLOOR`: this function rounded down the number passed as argument.
+- `ROUND`: this function brings any decimal value to the nearest integer. We can send the second parameter to specify how many decimals we want to keep on the number.
+- `ABS`: this function returns the positive value of the input integer. The `ABS` function applied to a Date removes all the hyphens and colons from date and display the date as number.
+- `PI()`: return the value of PI with 6 decimals.
+- `POW`: receives two parameters, the first one is the base, and the second is the power to that base value. This function returns the base powered by the power.
+- more [here](https://mariadb.com/kb/en/numeric-functions/)
+
+Calculate the Area of a circle with radius 4 meter.
+
+```sql
+SELECT ROUND(PI() * POW(4, 2), 2) AreaOfCircle;
+```
+
+> MariaDB has many different native functions which can perform complex string and numeric operations.
+
 [back](../README.md)
